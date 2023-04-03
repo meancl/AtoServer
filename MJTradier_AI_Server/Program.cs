@@ -21,7 +21,7 @@ namespace MJTradier_AI_Server
                 EventWaitHandle eventHandle = new EventWaitHandle(false, EventResetMode.AutoReset, "MySharedMemoryEvent");
                 eventHandle.WaitOne();
 
-                mmf.HandleServerMemory();
+                mmf.ServeAIService();
             }
         }
 
