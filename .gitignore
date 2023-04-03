@@ -1,0 +1,7 @@
+packages/
+MJTradier_AI_Server/obj/
+MJTradier_AI_Server/bin/
+
+*.onnx
+*.suo
+*.cache

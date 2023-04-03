@@ -1,0 +1,19 @@
+﻿Working with:
+	Windows11 x64
+	.Net Framework 4.7.2( c# 7.0 )
+	Visual Studio 2019
+	
+	DB:
+		Microsoft.EntityFrameworkCore.3.1.32
+		Microsoft.EntityFrameworkCore Design.3.1.32
+		Microsoft.EntityFrameworkCore Tools.3.1.32
+		Pomelo.EntityFrameworkCore.MySql.3.2.7
+
+	AI:
+		Microsoft.ML.2.0.0
+		Microsoft.ML.OnnxRuntime.1.13.1
+		Microsoft.ML.OnnxTransformer.2.0.0
+		Microsoft.ML.OnnxConverter.0.20.0
+
+DBMS:
+	MySQL 8.0.28 
