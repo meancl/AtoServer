@@ -122,43 +122,52 @@ namespace MJTradier_AI_Server.Shared_Memory
                     fTest[i] = curBlock.fArr[i];
             }
 
-            float? answer0 = aIStarter.arrRFCGroup1[0].Score(fTest);
-            float? answer1 = aIStarter.arrRFCGroup1[1].Score(fTest);
-            float? answer2 = aIStarter.arrRFCGroup1[2].Score(fTest);
-            float? answer3 = aIStarter.arrRFCGroup1[3].Score(fTest);
-            float? answer4 = aIStarter.arrRFCGroup1[4].Score(fTest);
-            float? answer5 = aIStarter.arrRFCGroup1[5].Score(fTest);
-            float? answer6 = aIStarter.arrRFCGroup1[6].Score(fTest);
-            float? answer7 = aIStarter.arrRFCGroup1[7].Score(fTest);
-            float? answer8 = aIStarter.arrRFCGroup1[8].Score(fTest);
-            float? answer9 = aIStarter.arrRFCGroup1[9].Score(fTest);
-            float? answer10 = aIStarter.arrRFCGroup1[10].Score(fTest);
-            float? answer11 = aIStarter.arrRFCGroup1[11].Score(fTest);
-            float? answer12 = aIStarter.arrRFCGroup1[12].Score(fTest);
-            float? answer13 = aIStarter.arrRFCGroup1[13].Score(fTest);
-            float? answer14 = aIStarter.arrRFCGroup1[14].Score(fTest);
-            float? answer15 = aIStarter.arrRFCGroup1[15].Score(fTest);
-            float? answer16 = aIStarter.arrRFCGroup1[16].Score(fTest);
-            float? answer17 = aIStarter.arrRFCGroup1[17].Score(fTest);
-            float? answer18 = aIStarter.arrRFCGroup1[18].Score(fTest);
-            float? answer19 = aIStarter.arrRFCGroup1[19].Score(fTest);
-            float? answer20 = aIStarter.arrRFCGroup1[20].Score(fTest);
-            float? answer21 = aIStarter.arrRFCGroup1[21].Score(fTest);
-            float? answer22 = aIStarter.arrRFCGroup1[22].Score(fTest);
-            float? answer23 = aIStarter.arrRFCGroup1[23].Score(fTest);
-            float? answer24 = aIStarter.arrRFCGroup1[24].Score(fTest);
-            float? answer25 = aIStarter.arrRFCGroup1[25].Score(fTest);
-            float? answer26 = aIStarter.arrRFCGroup1[26].Score(fTest);
-            float? answer27 = aIStarter.arrRFCGroup1[27].Score(fTest);
-            float? answer28 = aIStarter.arrRFCGroup1[28].Score(fTest);
-            float? answer29 = aIStarter.arrRFCGroup1[29].Score(fTest);
-            float? answer30 = aIStarter.arrRFCGroup1[30].Score(fTest);
-            float? answer31 = aIStarter.arrRFCGroup1[31].Score(fTest);
-            float? answer32 = aIStarter.arrRFCGroup1[32].Score(fTest);
-            float? answer33 = aIStarter.arrRFCGroup1[33].Score(fTest);
-            float? answer34 = aIStarter.arrRFCGroup1[34].Score(fTest);
+            float?[] answerArr = new float?[35];
 
-            return (float)answer34;
+            answerArr[0] = aIStarter.arrRFCGroup1[0].Score(fTest);
+            answerArr[1] = aIStarter.arrRFCGroup1[1].Score(fTest);
+            answerArr[2] = aIStarter.arrRFCGroup1[2].Score(fTest);
+            answerArr[3] = aIStarter.arrRFCGroup1[3].Score(fTest);
+            answerArr[4] = aIStarter.arrRFCGroup1[4].Score(fTest);
+            answerArr[5] = aIStarter.arrRFCGroup1[5].Score(fTest);
+            answerArr[6] = aIStarter.arrRFCGroup1[6].Score(fTest);
+            answerArr[7] = aIStarter.arrRFCGroup1[7].Score(fTest);
+            answerArr[8] = aIStarter.arrRFCGroup1[8].Score(fTest);
+            answerArr[9] = aIStarter.arrRFCGroup1[9].Score(fTest);
+            answerArr[10] = aIStarter.arrRFCGroup1[10].Score(fTest);
+            answerArr[11] = aIStarter.arrRFCGroup1[11].Score(fTest);
+            answerArr[12] = aIStarter.arrRFCGroup1[12].Score(fTest);
+            answerArr[13] = aIStarter.arrRFCGroup1[13].Score(fTest);
+            answerArr[14] = aIStarter.arrRFCGroup1[14].Score(fTest);
+            answerArr[15] = aIStarter.arrRFCGroup1[15].Score(fTest);
+            answerArr[16] = aIStarter.arrRFCGroup1[16].Score(fTest);
+            answerArr[17] = aIStarter.arrRFCGroup1[17].Score(fTest);
+            answerArr[18] = aIStarter.arrRFCGroup1[18].Score(fTest);
+            answerArr[19] = aIStarter.arrRFCGroup1[19].Score(fTest);
+            answerArr[20] = aIStarter.arrRFCGroup1[20].Score(fTest);
+            answerArr[21] = aIStarter.arrRFCGroup1[21].Score(fTest);
+            answerArr[22] = aIStarter.arrRFCGroup1[22].Score(fTest);
+            answerArr[23] = aIStarter.arrRFCGroup1[23].Score(fTest);
+            answerArr[24] = aIStarter.arrRFCGroup1[24].Score(fTest);
+            answerArr[25] = aIStarter.arrRFCGroup1[25].Score(fTest);
+            answerArr[26] = aIStarter.arrRFCGroup1[26].Score(fTest);
+            answerArr[27] = aIStarter.arrRFCGroup1[27].Score(fTest);
+            answerArr[28] = aIStarter.arrRFCGroup1[28].Score(fTest);
+            answerArr[29] = aIStarter.arrRFCGroup1[29].Score(fTest);
+            answerArr[30] = aIStarter.arrRFCGroup1[30].Score(fTest);
+            answerArr[31] = aIStarter.arrRFCGroup1[31].Score(fTest);
+            answerArr[32] = aIStarter.arrRFCGroup1[32].Score(fTest);
+            answerArr[33] = aIStarter.arrRFCGroup1[33].Score(fTest);
+            answerArr[34] = aIStarter.arrRFCGroup1[34].Score(fTest);
+
+            double fSucCrit = 0.65;
+            double fSucCnt = 0;
+            for (int i = 0; i< answerArr.Length; i++)
+            {
+                if (answerArr[i] == 0)
+                    fSucCnt++;
+            }
+            return (((fSucCnt / answerArr.Length) > fSucCrit) ? 1 : 0);
         }
     }
 }
