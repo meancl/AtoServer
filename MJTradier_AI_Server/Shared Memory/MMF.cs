@@ -108,7 +108,8 @@ namespace MJTradier_AI_Server.Shared_Memory
 #if CONSOL
                     Console.WriteLine($"myPtr : {nCurMyPtr}, otherPtr : {nCurOtherPtr}, nCurIdxPtr : {nCurIdxPtr}, blockLen : {curBlock.nFeatureLen} answer : {answer}");
 #endif
-                    curBlock.fTarget = answer; // 결과 집어넣고
+                    curBlock.fRatio = answer.Item1;
+                    curBlock.isTarget = answer.Item2; // 결과 집어넣고
 
                     accessor.Write(nBlockOffSet + nCurIdxPtr * nStructSize, ref curBlock); // 다시 제자리에 넣기
                     nCurMyPtr = (nCurMyPtr + 1) % nStructStepNum; // 한칸 올리고
@@ -121,7 +122,7 @@ namespace MJTradier_AI_Server.Shared_Memory
 
         
         // 머신러닝 앙상블 예측
-        public float CalculateMLResult()
+        public Tuple<float, bool> CalculateMLResult()
         {
             double[] fTest = new double[curBlock.nFeatureLen];
 
@@ -169,7 +170,7 @@ namespace MJTradier_AI_Server.Shared_Memory
             answerArr[33] = aIStarter.arrRFCGroup1[33].Score(fTest);
             answerArr[34] = aIStarter.arrRFCGroup1[34].Score(fTest);
 
-            
+            float fSucCrit = 0.65f;
             float fSucCnt = 0;
             for (int i = 0; i< answerArr.Length; i++)
             {
@@ -179,7 +180,7 @@ namespace MJTradier_AI_Server.Shared_Memory
 #if CONSOL
             Console.WriteLine($"result percent : {(fSucCnt / answerArr.Length)}");
 #endif
-            return fSucCnt / answerArr.Length;
+            return new Tuple<float,bool>( fSucCnt / answerArr.Length, (fSucCnt / answerArr.Length) > fSucCrit);
         }
     }
 }

@@ -10,10 +10,18 @@ namespace MJTradier_AI_Server.Shared_Memory
 {
     public unsafe struct SharedAIBlock
     {
+        public fixed char cCodeArr[6];
+
+        public int nRequestType;
+
+        public int nRequestTime;
+
         public int nFeatureLen;
 
         public fixed double fArr[105];
 
-        public double fTarget;
+        public double fRatio;
+
+        public bool isTarget;
     }
 }
