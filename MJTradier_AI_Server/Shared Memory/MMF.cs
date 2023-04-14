@@ -31,6 +31,7 @@ namespace MJTradier_AI_Server.Shared_Memory
         public int nCurMyPtr; // 우리꺼
         public int nCurOtherPtr; // 남의꺼
 
+
         public SharedAIBlock curBlock;
         public AIStarter aIStarter;
      
@@ -56,6 +57,7 @@ namespace MJTradier_AI_Server.Shared_Memory
             DisposeSharedMemory();
         }
 
+        // 공유메모리 생성하기
         public void CreateSharedMemory()
         {
             mappedMemory = MemoryMappedFile.CreateNew(sMemoryName, nTotalMemorySize);
@@ -71,11 +73,13 @@ namespace MJTradier_AI_Server.Shared_Memory
             }
         }
 
+        // 공유메모리 해제하기
         public void DisposeSharedMemory()
         {
             mappedMemory.Dispose();
         }
 
+        // 내 ptr과 클라이언트 ptr 다른지 체크하기
         bool CheckIsDataComed()
         {
             return (nCurOtherPtr >= nCurMyPtr) ? nCurOtherPtr > nCurMyPtr : nCurMyPtr != nCurOtherPtr;
@@ -91,27 +95,32 @@ namespace MJTradier_AI_Server.Shared_Memory
              */
             using (var accessor = mappedMemory.CreateViewAccessor())
             {
-                accessor.Read(nPtrOffSet + SERVER_POINTER_LOC, out nCurMyPtr);
-                accessor.Read(nPtrOffSet + USER_POINTER_LOC, out nCurOtherPtr);
+                accessor.Read(nPtrOffSet + SERVER_POINTER_LOC, out nCurMyPtr); // 내 ptr받아오기
+                accessor.Read(nPtrOffSet + USER_POINTER_LOC, out nCurOtherPtr); // 클라이언트 ptr 받아오기
                 
-                while (CheckIsDataComed()) 
+                while (CheckIsDataComed()) // 내 ptr과 클라이언트 ptr 다른 지 확인하기
                 {
-                    accessor.Read(nBlockOffSet + nCurMyPtr * nStructSize, out curBlock);
+                    accessor.Read(nQueueOffSet + nCurMyPtr * sizeof(int), out int nCurIdxPtr); // 위치 인덱스 받아오기
+                    accessor.Read(nBlockOffSet + nCurIdxPtr * nStructSize, out curBlock); // 위치인덱스 메모리에서 데이터 꺼내오기
+                    
+                    var answer = CalculateMLResult(); // 머신러닝 계산하기
 
-                    var answer = CalculateMLResult();
-                    curBlock.fTarget = answer;
+#if CONSOL
+                    Console.WriteLine($"myPtr : {nCurMyPtr}, otherPtr : {nCurOtherPtr}, nCurIdxPtr : {nCurIdxPtr}, blockLen : {curBlock.nFeatureLen} answer : {answer}");
+#endif
+                    curBlock.fTarget = answer; // 결과 집어넣고
 
-                    accessor.Write(nBlockOffSet + nCurMyPtr * nStructSize, ref curBlock);
-                    nCurMyPtr = (nCurMyPtr + 1) % nStructStepNum;
+                    accessor.Write(nBlockOffSet + nCurIdxPtr * nStructSize, ref curBlock); // 다시 제자리에 넣기
+                    nCurMyPtr = (nCurMyPtr + 1) % nStructStepNum; // 한칸 올리고
 
-                    accessor.Write(nPtrOffSet + SERVER_POINTER_LOC, ref nCurMyPtr);
-                    accessor.Read(nPtrOffSet + USER_POINTER_LOC, out nCurOtherPtr);
+                    accessor.Write(nPtrOffSet + SERVER_POINTER_LOC, ref nCurMyPtr); // 내 ptr 집어넣기
+                    accessor.Read(nPtrOffSet + USER_POINTER_LOC, out nCurOtherPtr); // 클라이언트 ptr 받아오기
                 }
             }
         }
 
         
-
+        // 머신러닝 앙상블 예측
         public float CalculateMLResult()
         {
             double[] fTest = new double[curBlock.nFeatureLen];
@@ -160,14 +169,17 @@ namespace MJTradier_AI_Server.Shared_Memory
             answerArr[33] = aIStarter.arrRFCGroup1[33].Score(fTest);
             answerArr[34] = aIStarter.arrRFCGroup1[34].Score(fTest);
 
-            double fSucCrit = 0.65;
-            double fSucCnt = 0;
+            
+            float fSucCnt = 0;
             for (int i = 0; i< answerArr.Length; i++)
             {
                 if (answerArr[i] == 0)
                     fSucCnt++;
             }
-            return (((fSucCnt / answerArr.Length) > fSucCrit) ? 1 : 0);
+#if CONSOL
+            Console.WriteLine($"result percent : {(fSucCnt / answerArr.Length)}");
+#endif
+            return fSucCnt / answerArr.Length;
         }
     }
 }
