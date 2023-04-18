@@ -61,6 +61,19 @@ namespace MJTradier_AI_Server.AI
             new Tuple<string, int> ("RF_pow30_035_n120_md7_v2.onnx", 102),
             new Tuple<string, int> ("RF_pow30_035_n120_md8_v2.onnx", 102),
             new Tuple<string, int> ("RF_pow30_035_n120_md10_v2.onnx", 102),
+
+            new Tuple<string, int> ("RF_pow10_01_n150_md8_2023-04-01.onnx", 102),
+            new Tuple<string, int> ("RF_pow10_02_n150_md8_2023-04-01.onnx", 102),
+            new Tuple<string, int> ("RF_pow10_02_n100_md8_2023-04-01.onnx", 102),
+            new Tuple<string, int> ("RF_pow10_016_n100_md8_2023-04-01.onnx", 102),
+            new Tuple<string, int> ("RF_powMin_01_n200_md13_2023-04-01.onnx", 102),
+            new Tuple<string, int> ("RF_pow30_04_n400_md13_2023-04-01.onnx", 102),
+            new Tuple<string, int> ("RF_pow30_015_n200_md12_2023-04-01.onnx", 102),
+            new Tuple<string, int> ("RF_pow10_015_n100_md12_2023-04-01.onnx", 102),
+            new Tuple<string, int> ("RF_pow10_015_n100_md8_2023-04-01.onnx", 102),
+            new Tuple<string, int> ("RF_pow10_015_n200_md7_2023-04-01.onnx", 102),
+            new Tuple<string, int> ("RF_pow10_01_n200_md7_2023-04-01.onnx", 102),
+            new Tuple<string, int> ("RF_pow30_04_n250_md10_2023-04-01.onnx", 102),
         };
 
         // LightGBM Classfier 모델

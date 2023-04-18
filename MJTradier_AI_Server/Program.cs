@@ -14,6 +14,7 @@ namespace MJTradier_AI_Server
         static void Main(string[] args)
         {
             MMF mmf = new MMF();
+            mmf.TestMLResult();
 
             while (true)
             {

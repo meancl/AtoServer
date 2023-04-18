@@ -120,7 +120,15 @@ namespace MJTradier_AI_Server.Shared_Memory
                     }
 
 #if CONSOL
-                    Console.WriteLine($"myPtr : {nCurMyPtr}, otherPtr : {nCurOtherPtr}, nCurIdxPtr : {nCurIdxPtr}, blockLen : {curBlock.nFeatureLen} answer : {answer}");
+                    string sCode;
+                    unsafe
+                    {
+                        fixed (SharedAIBlock* ptr = &curBlock)
+                        {
+                            sCode = new string(ptr->cCodeArr, 0, 6);
+                        }
+                    }
+                    Console.WriteLine($"myPtr : {nCurMyPtr}, otherPtr : {nCurOtherPtr}, sCode : {sCode}, reqType :{(curBlock.nRequestType == 0?"매수":"매도")} nCurIdxPtr : {nCurIdxPtr}, blockLen : {curBlock.nFeatureLen} answer : {answer}");
 #endif
                     curBlock.fRatio = answer.Item1;
                     curBlock.isTarget = answer.Item2; // 결과 집어넣고
@@ -131,8 +139,8 @@ namespace MJTradier_AI_Server.Shared_Memory
                     accessor.Write(nPtrOffSet + SERVER_POINTER_LOC, ref nCurMyPtr); // 내 ptr 집어넣기
                     accessor.Read(nPtrOffSet + USER_POINTER_LOC, out nCurOtherPtr); // 클라이언트 ptr 받아오기
 
-                    if(curBlock.nRequestType == 1)
-                        CallEvent($"MySellEvent{curBlock.nSellReqNum}");
+                    
+                    CallEvent($"MyNamedEvent{curBlock.nSellReqNum}", isWait:true);
 
                 }
             }
@@ -153,8 +161,8 @@ namespace MJTradier_AI_Server.Shared_Memory
                 Task.Run(() =>
                 {
                     Thread.Sleep(100);
-                    EventWaitHandle eventHandle = new EventWaitHandle(false, EventResetMode.AutoReset, sEventName);
-                    eventHandle.Set();
+                    CallEvent(sEventName, isWait);
+                    return;
                 });
             }
         }
@@ -232,7 +240,7 @@ namespace MJTradier_AI_Server.Shared_Memory
                     fTest[i] = curBlock.fArr[i];
             }
 
-            float?[] answerArr = new float?[35];
+            float?[] answerArr = new float?[48];
 
             answerArr[0] = aIStarter.arrRFCGroup1[0].Score(fTest);
             answerArr[1] = aIStarter.arrRFCGroup1[1].Score(fTest);
@@ -269,8 +277,20 @@ namespace MJTradier_AI_Server.Shared_Memory
             answerArr[32] = aIStarter.arrRFCGroup1[32].Score(fTest);
             answerArr[33] = aIStarter.arrRFCGroup1[33].Score(fTest);
             answerArr[34] = aIStarter.arrRFCGroup1[34].Score(fTest);
+            answerArr[35] = aIStarter.arrRFCGroup1[35].Score(fTest);
+            answerArr[36] = aIStarter.arrRFCGroup1[36].Score(fTest);
+            answerArr[37] = aIStarter.arrRFCGroup1[37].Score(fTest);
+            answerArr[38] = aIStarter.arrRFCGroup1[38].Score(fTest);
+            answerArr[39] = aIStarter.arrRFCGroup1[39].Score(fTest);
+            answerArr[40] = aIStarter.arrRFCGroup1[40].Score(fTest);
+            answerArr[41] = aIStarter.arrRFCGroup1[41].Score(fTest);
+            answerArr[42] = aIStarter.arrRFCGroup1[42].Score(fTest);
+            answerArr[43] = aIStarter.arrRFCGroup1[43].Score(fTest);
+            answerArr[44] = aIStarter.arrRFCGroup1[44].Score(fTest);
+            answerArr[45] = aIStarter.arrRFCGroup1[45].Score(fTest);
+            answerArr[46] = aIStarter.arrRFCGroup1[46].Score(fTest);
 
-            float fSellCrit = 0.4f;
+            float fSellCrit = 0.3f;
             float fSucCnt = 0;
             for (int i = 0; i < answerArr.Length; i++)
             {
@@ -281,6 +301,74 @@ namespace MJTradier_AI_Server.Shared_Memory
             Console.WriteLine($"result percent : {(fSucCnt / answerArr.Length)}");
 #endif
             return new Tuple<float, bool>( 1 - fSucCnt / answerArr.Length, (fSucCnt / answerArr.Length) < fSellCrit);
+        }
+
+        public void TestMLResult()
+        {
+            float?[] answerArr = new float?[48];
+
+            double test_val = 10;
+            var fTest = new double[102] {
+                    test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val,
+                    test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val,
+                    test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val,
+                    test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val,
+                    test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val,
+                    test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val,
+                    test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val,
+                    test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val,
+                    test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val,
+                    test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val, test_val,
+                    test_val, test_val
+                };
+
+            answerArr[0] = aIStarter.arrRFCGroup1[0].Score(fTest);
+            answerArr[1] = aIStarter.arrRFCGroup1[1].Score(fTest);
+            answerArr[2] = aIStarter.arrRFCGroup1[2].Score(fTest);
+            answerArr[3] = aIStarter.arrRFCGroup1[3].Score(fTest);
+            answerArr[4] = aIStarter.arrRFCGroup1[4].Score(fTest);
+            answerArr[5] = aIStarter.arrRFCGroup1[5].Score(fTest);
+            answerArr[6] = aIStarter.arrRFCGroup1[6].Score(fTest);
+            answerArr[7] = aIStarter.arrRFCGroup1[7].Score(fTest);
+            answerArr[8] = aIStarter.arrRFCGroup1[8].Score(fTest);
+            answerArr[9] = aIStarter.arrRFCGroup1[9].Score(fTest);
+            answerArr[10] = aIStarter.arrRFCGroup1[10].Score(fTest);
+            answerArr[11] = aIStarter.arrRFCGroup1[11].Score(fTest);
+            answerArr[12] = aIStarter.arrRFCGroup1[12].Score(fTest);
+            answerArr[13] = aIStarter.arrRFCGroup1[13].Score(fTest);
+            answerArr[14] = aIStarter.arrRFCGroup1[14].Score(fTest);
+            answerArr[15] = aIStarter.arrRFCGroup1[15].Score(fTest);
+            answerArr[16] = aIStarter.arrRFCGroup1[16].Score(fTest);
+            answerArr[17] = aIStarter.arrRFCGroup1[17].Score(fTest);
+            answerArr[18] = aIStarter.arrRFCGroup1[18].Score(fTest);
+            answerArr[19] = aIStarter.arrRFCGroup1[19].Score(fTest);
+            answerArr[20] = aIStarter.arrRFCGroup1[20].Score(fTest);
+            answerArr[21] = aIStarter.arrRFCGroup1[21].Score(fTest);
+            answerArr[22] = aIStarter.arrRFCGroup1[22].Score(fTest);
+            answerArr[23] = aIStarter.arrRFCGroup1[23].Score(fTest);
+            answerArr[24] = aIStarter.arrRFCGroup1[24].Score(fTest);
+            answerArr[25] = aIStarter.arrRFCGroup1[25].Score(fTest);
+            answerArr[26] = aIStarter.arrRFCGroup1[26].Score(fTest);
+            answerArr[27] = aIStarter.arrRFCGroup1[27].Score(fTest);
+            answerArr[28] = aIStarter.arrRFCGroup1[28].Score(fTest);
+            answerArr[29] = aIStarter.arrRFCGroup1[29].Score(fTest);
+            answerArr[30] = aIStarter.arrRFCGroup1[30].Score(fTest);
+            answerArr[31] = aIStarter.arrRFCGroup1[31].Score(fTest);
+            answerArr[32] = aIStarter.arrRFCGroup1[32].Score(fTest);
+            answerArr[33] = aIStarter.arrRFCGroup1[33].Score(fTest);
+            answerArr[34] = aIStarter.arrRFCGroup1[34].Score(fTest);
+            answerArr[35] = aIStarter.arrRFCGroup1[35].Score(fTest);
+            answerArr[36] = aIStarter.arrRFCGroup1[36].Score(fTest);
+            answerArr[37] = aIStarter.arrRFCGroup1[37].Score(fTest);
+            answerArr[38] = aIStarter.arrRFCGroup1[38].Score(fTest);
+            answerArr[39] = aIStarter.arrRFCGroup1[39].Score(fTest);
+            answerArr[40] = aIStarter.arrRFCGroup1[40].Score(fTest);
+            answerArr[41] = aIStarter.arrRFCGroup1[41].Score(fTest);
+            answerArr[42] = aIStarter.arrRFCGroup1[42].Score(fTest);
+            answerArr[43] = aIStarter.arrRFCGroup1[43].Score(fTest);
+            answerArr[44] = aIStarter.arrRFCGroup1[44].Score(fTest);
+            answerArr[45] = aIStarter.arrRFCGroup1[45].Score(fTest);
+            answerArr[46] = aIStarter.arrRFCGroup1[46].Score(fTest);
         }
     }
 }
