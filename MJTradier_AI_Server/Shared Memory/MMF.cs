@@ -128,7 +128,7 @@ namespace MJTradier_AI_Server.Shared_Memory
                             sCode = new string(ptr->cCodeArr, 0, 6);
                         }
                     }
-                    Console.WriteLine($"myPtr : {nCurMyPtr}, otherPtr : {nCurOtherPtr}, sCode : {sCode}, reqType :{(curBlock.nRequestType == 0?"매수":"매도")} nCurIdxPtr : {nCurIdxPtr}, blockLen : {curBlock.nFeatureLen} answer : {answer}");
+                    Console.WriteLine($"myPtr : {nCurMyPtr}, otherPtr : {nCurOtherPtr}, sCode : {sCode}, nCurIdxPtr : {nCurIdxPtr}, reqNum : {curBlock.nSellReqNum}, reqTime : {curBlock.nRequestTime}, reqType :{(curBlock.nRequestType == 0?"매수":"매도")}, answer : {answer}");
 #endif
                     curBlock.fRatio = answer.Item1;
                     curBlock.isTarget = answer.Item2; // 결과 집어넣고
@@ -146,7 +146,7 @@ namespace MJTradier_AI_Server.Shared_Memory
             }
         }
 
-        public void CallEvent(string sEventName, bool isWait=false)
+        public void CallEvent(string sEventName, bool isWait=false,int nCount = 0)
         {
             try
             {
@@ -154,14 +154,24 @@ namespace MJTradier_AI_Server.Shared_Memory
                     EventWaitHandle.OpenExisting(sEventName); // 이벤트가 없으면 대기
                 EventWaitHandle eventHandle = new EventWaitHandle(false, EventResetMode.AutoReset, sEventName);
                 eventHandle.Set();
+#if CONSOL
+                if (nCount > 0)
+                    Console.WriteLine($"call Event 오류 해결!, msg : {sEventName} {nCount}");
+#endif
             }
             catch (WaitHandleCannotBeOpenedException)
             {
+#if CONSOL
+                Console.WriteLine($"call Event 오류 생김, msg : {sEventName} {nCount}");
+#endif
+                if (nCount > 3)
+                    return;
+
                 // handle does not exist
                 Task.Run(() =>
                 {
                     Thread.Sleep(100);
-                    CallEvent(sEventName, isWait);
+                    CallEvent(sEventName, isWait, nCount + 1);
                     return;
                 });
             }
@@ -216,6 +226,7 @@ namespace MJTradier_AI_Server.Shared_Memory
             answerArr[33] = aIStarter.arrRFCGroup1[33].Score(fTest);
             answerArr[34] = aIStarter.arrRFCGroup1[34].Score(fTest);
 
+
             float fSucCrit = 0.65f;
             float fSucCnt = 0;
             for (int i = 0; i< answerArr.Length; i++)
@@ -223,9 +234,7 @@ namespace MJTradier_AI_Server.Shared_Memory
                 if (answerArr[i] == 0)
                     fSucCnt++;
             }
-#if CONSOL
-            Console.WriteLine($"result percent : {(fSucCnt / answerArr.Length)}");
-#endif
+
             return new Tuple<float,bool>( fSucCnt / answerArr.Length, (fSucCnt / answerArr.Length) > fSucCrit);
         }
 
@@ -297,9 +306,7 @@ namespace MJTradier_AI_Server.Shared_Memory
                 if (answerArr[i] == 0)
                     fSucCnt++;
             }
-#if CONSOL
-            Console.WriteLine($"result percent : {(fSucCnt / answerArr.Length)}");
-#endif
+
             return new Tuple<float, bool>( 1 - fSucCnt / answerArr.Length, (fSucCnt / answerArr.Length) < fSellCrit);
         }
 
@@ -369,6 +376,13 @@ namespace MJTradier_AI_Server.Shared_Memory
             answerArr[44] = aIStarter.arrRFCGroup1[44].Score(fTest);
             answerArr[45] = aIStarter.arrRFCGroup1[45].Score(fTest);
             answerArr[46] = aIStarter.arrRFCGroup1[46].Score(fTest);
+
+
+            //// 
+            //var scaled_svm1 = aIStarter.GetScaledData(fTest, aIStarter.arrSVMCGroup1[0].sModelName);
+            //var pca_res = aIStarter.arrPCAGroup1[0].Score(scaled_svm1);
+            //var svm_res = aIStarter.arrSVMCGroup1[0].Score(pca_res);
+
         }
     }
 }

@@ -97,14 +97,14 @@ namespace MJTradier_AI_Server.AI
         // SVM Classfier 모델
         public OnnxSVMCScorer[] arrSVMCGroup1;
         Tuple<string, int>[] arrInitSVMCGroup1 = new Tuple<string, int>[] {
-            //new Tuple<string, int> ("svm_standard_pca20_undersampling_rbf_pow10_025_pow30_03.onnx", 23),
+            new Tuple<string, int> ("svm_standard_pca20_undersampling_rbf_pow10_025_pow30_03.onnx", 23),
             //new Tuple<string, int> ("svm_8.onnx", 102),
         };
 
         // PCA 변환 모델
         public OnnxPCAModel[] arrPCAGroup1;
         Tuple<string, int>[] arrInitPCAGroup1 = new Tuple<string, int>[] {
-            //new Tuple<string, int> ("svm_standard_pca20_undersampling_rbf_pow10_025_pow30_03_PCA.onnx", 102),
+            new Tuple<string, int> ("svm_standard_pca20_undersampling_rbf_pow10_025_pow30_03_PCA.onnx", 102),
         };
         #endregion
 
