@@ -62,18 +62,18 @@ namespace MJTradier_AI_Server.AI
             new Tuple<string, int> ("RF_pow30_035_n120_md8_v2.onnx", 102),
             new Tuple<string, int> ("RF_pow30_035_n120_md10_v2.onnx", 102),
 
-            new Tuple<string, int> ("RF_pow10_01_n150_md8_2023-04-01.onnx", 102),
-            new Tuple<string, int> ("RF_pow10_02_n150_md8_2023-04-01.onnx", 102),
-            new Tuple<string, int> ("RF_pow10_02_n100_md8_2023-04-01.onnx", 102),
-            new Tuple<string, int> ("RF_pow10_016_n100_md8_2023-04-01.onnx", 102),
-            new Tuple<string, int> ("RF_powMin_01_n200_md13_2023-04-01.onnx", 102),
-            new Tuple<string, int> ("RF_pow30_04_n400_md13_2023-04-01.onnx", 102),
-            new Tuple<string, int> ("RF_pow30_015_n200_md12_2023-04-01.onnx", 102),
-            new Tuple<string, int> ("RF_pow10_015_n100_md12_2023-04-01.onnx", 102),
-            new Tuple<string, int> ("RF_pow10_015_n100_md8_2023-04-01.onnx", 102),
-            new Tuple<string, int> ("RF_pow10_015_n200_md7_2023-04-01.onnx", 102),
-            new Tuple<string, int> ("RF_pow10_01_n200_md7_2023-04-01.onnx", 102),
-            new Tuple<string, int> ("RF_pow30_04_n250_md10_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_pow10_01_n150_md8_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_pow10_02_n150_md8_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_pow10_02_n100_md8_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_pow10_016_n100_md8_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_powMin_01_n200_md13_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_pow30_04_n400_md13_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_pow30_015_n200_md12_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_pow10_015_n100_md12_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_pow10_015_n100_md8_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_pow10_015_n200_md7_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_pow10_01_n200_md7_2023-04-01.onnx", 102),
+            //new Tuple<string, int> ("RF_pow30_04_n250_md10_2023-04-01.onnx", 102),
         };
 
         // LightGBM Classfier 모델
@@ -97,14 +97,14 @@ namespace MJTradier_AI_Server.AI
         // SVM Classfier 모델
         public OnnxSVMCScorer[] arrSVMCGroup1;
         Tuple<string, int>[] arrInitSVMCGroup1 = new Tuple<string, int>[] {
-            new Tuple<string, int> ("svm_standard_pca20_undersampling_rbf_pow10_025_pow30_03.onnx", 23),
+            //new Tuple<string, int> ("svm_standard_pca20_undersampling_rbf_pow10_025_pow30_03.onnx", 23),
             //new Tuple<string, int> ("svm_8.onnx", 102),
         };
 
         // PCA 변환 모델
         public OnnxPCAModel[] arrPCAGroup1;
         Tuple<string, int>[] arrInitPCAGroup1 = new Tuple<string, int>[] {
-            new Tuple<string, int> ("svm_standard_pca20_undersampling_rbf_pow10_025_pow30_03_PCA.onnx", 102),
+            // new Tuple<string, int> ("svm_standard_pca20_undersampling_rbf_pow10_025_pow30_03_PCA.onnx", 102),
         };
         #endregion
 
@@ -143,7 +143,7 @@ namespace MJTradier_AI_Server.AI
             arrRFCGroup1 = new OnnxRFCScorer[arrInitRFCGroup1.Length];
             for (int i = 0; i < arrInitRFCGroup1.Length; i++)
             {
-                onnxModelGetter.DownloadOnnxModels(new[] { arrInitRFCGroup1[i].Item1 });
+                // onnxModelGetter.DownloadOnnxModels(new[] { arrInitRFCGroup1[i].Item1 });
                 arrRFCGroup1[i] = new OnnxRFCScorer(sFileName: arrInitRFCGroup1[i].Item1, mlContext: mlContext, nInputDim: arrInitRFCGroup1[i].Item2); // Load trained model
             }
 

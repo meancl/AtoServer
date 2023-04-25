@@ -14,8 +14,6 @@ namespace MJTradier_AI_Server.Shared_Memory
 
         public int nRequestType;
 
-        public int nSellReqNum;
-
         public int nRequestTime;
 
         public int nFeatureLen;
