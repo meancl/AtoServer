@@ -1,6 +1,6 @@
 packages/
-MJTradier_AI_Server/obj/
-MJTradier_AI_Server/bin/
+AtoServer/obj/
+AtoServer/bin/
 
 *.onnx
 *.suo

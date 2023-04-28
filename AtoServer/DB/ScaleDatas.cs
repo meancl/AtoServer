@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MJTradier_AI_Server.AI
+namespace AtoServer.AI
 {
     // (cur - D0) / (D1 - D2)
     public class ScaleDatas

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using System.Runtime.InteropServices;
 
-namespace MJTradier_AI_Server.Shared_Memory
+namespace AtoServer.Shared_Memory
 {
     public unsafe struct SharedAIBlock
     {

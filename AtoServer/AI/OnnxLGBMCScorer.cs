@@ -8,12 +8,12 @@ using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Transforms.Onnx;
 
-namespace MJTradier_AI_Server.AI
+namespace AtoServer.AI
 {
-    public class OnnxPCAModel
+    public class OnnxLGBMCScorer
     {
         private const string sInput = "input";
-        private const string sOutput = "variable";
+        private const string sOutput = "output";
 
         private readonly MLContext mlContext;
         private PredictionEngine<ModelInput, Prediction> model;
@@ -22,7 +22,7 @@ namespace MJTradier_AI_Server.AI
 
         public string sModelName;
 
-        public OnnxPCAModel(string sFileName, MLContext mlContext, int nInputDim)
+        public OnnxLGBMCScorer(string sFileName, MLContext mlContext, int nInputDim)
         {
 
             inputSchemaDef = SchemaDefinition.Create(typeof(ModelInput));
@@ -33,7 +33,7 @@ namespace MJTradier_AI_Server.AI
 
             sModelName = sFileName;
 
-            model = LoadModel(MJTradier_AI_Server.AI.OnnxPath.onnx_path + sFileName);
+            model = LoadModel(AtoServer.AI.OnnxPath.onnx_path + sFileName);
         }
 
         private class ModelInput
@@ -68,20 +68,25 @@ namespace MJTradier_AI_Server.AI
             // Input vectorType 을 변경하기 위해 schema정의서를 추가입력해줘야한다.
             return mlContext.Model.CreatePredictionEngine<ModelInput, Prediction>(model, inputSchemaDefinition: inputSchemaDef);
         }
-        private double[] PredictDataUsingModel(ModelInput testData, PredictionEngine<ModelInput, Prediction> model)
+        private double? PredictDataUsingModel(ModelInput testData, PredictionEngine<ModelInput, Prediction> model)
         {
             Prediction prediction = model.Predict(testData);
-            return prediction.target;
+            double? retVal;
+            if (prediction == null)
+                retVal = null;
+            else
+                retVal = prediction.target[0];
+            return retVal;
         }
 
-        public double[] Score(double[] features)
+        public float? Score(double[] features)
         {
             ModelInput data = new ModelInput();
             data.features = features;
 
             if (data.features.Length != nInputDim)
                 return null;
-            return PredictDataUsingModel(data, model);
+            return (float)PredictDataUsingModel(data, model);
         }
     }
 }

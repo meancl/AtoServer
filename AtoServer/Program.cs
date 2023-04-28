@@ -1,5 +1,5 @@
-﻿using MJTradier_AI_Server.AI;
-using MJTradier_AI_Server.Shared_Memory;
+﻿using AtoServer.AI;
+using AtoServer.Shared_Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MJTradier_AI_Server
+namespace AtoServer
 {
     class Program
     {

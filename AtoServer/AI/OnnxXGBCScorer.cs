@@ -8,7 +8,7 @@ using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Transforms.Onnx;
 
-namespace MJTradier_AI_Server.AI
+namespace AtoServer.AI
 {
     public class OnnxXGBCScorer
     {
@@ -33,7 +33,7 @@ namespace MJTradier_AI_Server.AI
 
             sModelName = sFileName;
 
-            model = LoadModel(MJTradier_AI_Server.AI.OnnxPath.onnx_path + sFileName);
+            model = LoadModel(AtoServer.AI.OnnxPath.onnx_path + sFileName);
         }
 
         private class ModelInput

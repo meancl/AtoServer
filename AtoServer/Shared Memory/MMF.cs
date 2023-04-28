@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
-using MJTradier_AI_Server.AI;
+using AtoServer.AI;
 using System.Threading;
 
-namespace MJTradier_AI_Server.Shared_Memory
+namespace AtoServer.Shared_Memory
 {
     public class MMF
     {
-        public const string sMemoryName = "MJTradierMemory";
+        public const string sMemoryName = "AtoMemory";
 
         public const int SERVER_POINTER_LOC = 0;
         public const int USER_POINTER_LOC = 4;
         public const int nStepPtrSize = 8; 
-        public const int nStructStepNum = 5000;
+        public const int nStructStepNum = 4096;
 
         public int nStructSize = Marshal.SizeOf<SharedAIBlock>();
         public int nTotalMemorySize;

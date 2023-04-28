@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.33423.256
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MJTradier_AI_Server", "MJTradier_AI_Server\MJTradier_AI_Server.csproj", "{E2E867F5-FE1E-4CC0-93C2-EF710EC6798F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectAto", "AtoServer\ProjectAto.csproj", "{E2E867F5-FE1E-4CC0-93C2-EF710EC6798F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

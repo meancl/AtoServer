@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MJTradier_AI_Server.AI
+namespace AtoServer.AI
 {
     public class myDbContext : DbContext
     {

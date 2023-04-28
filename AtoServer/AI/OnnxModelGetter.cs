@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MJTradier_AI_Server.AI
+namespace AtoServer.AI
 {
     public class OnnxModelGetter
     {
@@ -13,7 +13,7 @@ namespace MJTradier_AI_Server.AI
         string _ftpPassword = "jin9409";
         string _ftpServer = "221.149.119.60";
         string _port = "2021";
-        string _onnx_path = MJTradier_AI_Server.AI.OnnxPath.onnx_path;
+        string _onnx_path = AtoServer.AI.OnnxPath.onnx_path;
         string _serverUri;
 
         public OnnxModelGetter()

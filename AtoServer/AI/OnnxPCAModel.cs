@@ -8,13 +8,12 @@ using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Transforms.Onnx;
 
-namespace MJTradier_AI_Server.AI
+namespace AtoServer.AI
 {
-
-    public class OnnxDNNCScorer
+    public class OnnxPCAModel
     {
         private const string sInput = "input";
-        private const string sOutput = "output";
+        private const string sOutput = "variable";
 
         private readonly MLContext mlContext;
         private PredictionEngine<ModelInput, Prediction> model;
@@ -23,31 +22,31 @@ namespace MJTradier_AI_Server.AI
 
         public string sModelName;
 
-        public OnnxDNNCScorer(string sFileName, MLContext mlContext, int nInputDim)
+        public OnnxPCAModel(string sFileName, MLContext mlContext, int nInputDim)
         {
 
             inputSchemaDef = SchemaDefinition.Create(typeof(ModelInput));
-            inputSchemaDef[sInput].ColumnType = new VectorDataViewType(NumberDataViewType.Single, nInputDim); // input의 피처와 형 맞춤 필요
+            inputSchemaDef[sInput].ColumnType = new VectorDataViewType(NumberDataViewType.Double, nInputDim); // input의 피처와 형 맞춤 필요
 
             this.nInputDim = nInputDim;
             this.mlContext = mlContext;
 
             sModelName = sFileName;
 
-            model = LoadModel(MJTradier_AI_Server.AI.OnnxPath.onnx_path + sFileName);
+            model = LoadModel(AtoServer.AI.OnnxPath.onnx_path + sFileName);
         }
 
         private class ModelInput
         {
             [VectorType()]
             [ColumnName(sInput)]
-            public float[] features { get; set; }
+            public double[] features { get; set; }
         }
         private class Prediction
         {
             [VectorType()]
             [ColumnName(sOutput)]
-            public float[] target { get; set; }
+            public double[] target { get; set; }
         }
 
 
@@ -69,25 +68,20 @@ namespace MJTradier_AI_Server.AI
             // Input vectorType 을 변경하기 위해 schema정의서를 추가입력해줘야한다.
             return mlContext.Model.CreatePredictionEngine<ModelInput, Prediction>(model, inputSchemaDefinition: inputSchemaDef);
         }
-        private float? PredictDataUsingModel(ModelInput testData, PredictionEngine<ModelInput, Prediction> model)
+        private double[] PredictDataUsingModel(ModelInput testData, PredictionEngine<ModelInput, Prediction> model)
         {
             Prediction prediction = model.Predict(testData);
-            float? retVal;
-            if (prediction == null)
-                retVal = null;
-            else
-                retVal = prediction.target[0];
-            return retVal;
+            return prediction.target;
         }
 
-        public float? Score(double[] features)
+        public double[] Score(double[] features)
         {
             ModelInput data = new ModelInput();
-            data.features = Array.ConvertAll(features, x => (float)x);
+            data.features = features;
 
             if (data.features.Length != nInputDim)
                 return null;
-            return (float)PredictDataUsingModel(data, model);
+            return PredictDataUsingModel(data, model);
         }
     }
 }

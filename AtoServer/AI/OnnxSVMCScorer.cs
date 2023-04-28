@@ -8,12 +8,12 @@ using Microsoft.ML;
 using Microsoft.ML.Data;
 using Microsoft.ML.Transforms.Onnx;
 
-namespace MJTradier_AI_Server.AI
+namespace AtoServer.AI
 {
-    public class OnnxLGBMCScorer
+    public class OnnxSVMCScorer
     {
         private const string sInput = "input";
-        private const string sOutput = "output";
+        private const string sOutput = "label";
 
         private readonly MLContext mlContext;
         private PredictionEngine<ModelInput, Prediction> model;
@@ -22,7 +22,7 @@ namespace MJTradier_AI_Server.AI
 
         public string sModelName;
 
-        public OnnxLGBMCScorer(string sFileName, MLContext mlContext, int nInputDim)
+        public OnnxSVMCScorer(string sFileName, MLContext mlContext, int nInputDim)
         {
 
             inputSchemaDef = SchemaDefinition.Create(typeof(ModelInput));
@@ -33,7 +33,7 @@ namespace MJTradier_AI_Server.AI
 
             sModelName = sFileName;
 
-            model = LoadModel(MJTradier_AI_Server.AI.OnnxPath.onnx_path + sFileName);
+            model = LoadModel(AtoServer.AI.OnnxPath.onnx_path + sFileName);
         }
 
         private class ModelInput
@@ -46,7 +46,7 @@ namespace MJTradier_AI_Server.AI
         {
             [VectorType()]
             [ColumnName(sOutput)]
-            public double[] target { get; set; }
+            public long[] target { get; set; }
         }
 
 
@@ -68,10 +68,10 @@ namespace MJTradier_AI_Server.AI
             // Input vectorType 을 변경하기 위해 schema정의서를 추가입력해줘야한다.
             return mlContext.Model.CreatePredictionEngine<ModelInput, Prediction>(model, inputSchemaDefinition: inputSchemaDef);
         }
-        private double? PredictDataUsingModel(ModelInput testData, PredictionEngine<ModelInput, Prediction> model)
+        private long? PredictDataUsingModel(ModelInput testData, PredictionEngine<ModelInput, Prediction> model)
         {
             Prediction prediction = model.Predict(testData);
-            double? retVal;
+            long? retVal;
             if (prediction == null)
                 retVal = null;
             else
