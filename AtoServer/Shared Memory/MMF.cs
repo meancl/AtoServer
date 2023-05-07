@@ -140,7 +140,7 @@ namespace AtoServer.Shared_Memory
                             sCode = new string(ptr->cCodeArr, 0, 6);
                         }
                     }
-                    Console.WriteLine($"{++nRequestCnt}  myPtr : {nCurMyPtr}, otherPtr : {nCurOtherPtr}, sCode : {sCode}, nCurIdxPtr : {nCurIdxPtr}, reqTime : {curBlock.nRequestTime}, reqType :{sReqMsg}, answer : {answer}");
+                    Console.WriteLine($"{++nRequestCnt}  servicePtr : {nCurMyPtr}, clientPtr : {nCurOtherPtr}, sCode : {sCode}, nCurIdxPtr : {nCurIdxPtr}, reqTime : {curBlock.nRequestTime}, reqType :{sReqMsg}, answer : {answer}");
 #endif
                     curBlock.fRatio = answer.Item1;
                     curBlock.isTarget = answer.Item2; // 결과 집어넣고
