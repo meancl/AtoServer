@@ -240,7 +240,7 @@ namespace AtoServer.Shared_Memory
             return new Tuple<float, bool>( 1 - fSucCnt / nCurAITestNum, (fSucCnt / nCurAITestNum) < fSellCrit);
         }
 
-        public void TestMLResult()
+        public void TestMLResult(int n)
         {
             double test_val = 10;
             var fTest = new double[102] {
@@ -258,11 +258,19 @@ namespace AtoServer.Shared_Memory
                 };
 
             float?[] answerArr = new float?[nCurAITestNum];
+            
+            float fSucCnt = 0;
+
 
             for (int i = 0; i < nCurAITestNum; i++)
             {
                 answerArr[i] = aIStarter.arrRFCGroup1[i].Score(fTest);
+                if (answerArr[i] == 0)
+                    fSucCnt++;
             }
+
+
+            Console.WriteLine($"{n}번째 테스트 완료 : {fSucCnt  / nCurAITestNum}(%)");
         }
     }
 }
