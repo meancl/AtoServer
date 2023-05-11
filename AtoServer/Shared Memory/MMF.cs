@@ -18,7 +18,7 @@ namespace AtoServer.Shared_Memory
         public const int SERVER_POINTER_LOC = 0;
         public const int USER_POINTER_LOC = 4;
         public const int nStepPtrSize = 8; 
-        public const int nStructStepNum = 4096;
+        public const int nStructStepNum = 8192;
 
         public int nStructSize = Marshal.SizeOf<SharedAIBlock>();
         public int nTotalMemorySize;
@@ -86,9 +86,11 @@ namespace AtoServer.Shared_Memory
             return (nCurOtherPtr >= nCurMyPtr) ? nCurOtherPtr > nCurMyPtr : nCurMyPtr != nCurOtherPtr;
         }
 
+
         public const int BUY_AI_NUM = 0;
         public const int SELL_AI_NUM = 1;
         public const int FAKE_AI_NUM = 2;
+        public const int EVERY_AI_NUM = 3;
 
         public int nRequestCnt = 0;
 
@@ -126,6 +128,10 @@ namespace AtoServer.Shared_Memory
                         case FAKE_AI_NUM:
                             answer = CalculateFakeMLResult();
                             sReqMsg = "페이크";
+                            break;
+                        case EVERY_AI_NUM:
+                            answer = CalculateFakeMLResult();
+                            sReqMsg = "항시";
                             break;
                         default:
                             return;
@@ -237,7 +243,7 @@ namespace AtoServer.Shared_Memory
             }
 
 
-            return new Tuple<float, bool>( 1 - fSucCnt / nCurAITestNum, (fSucCnt / nCurAITestNum) < fSellCrit);
+            return new Tuple<float, bool>(  fSucCnt / nCurAITestNum, (fSucCnt / nCurAITestNum) < fSellCrit);
         }
 
         public void TestMLResult(int n)
