@@ -87,10 +87,11 @@ namespace AtoServer.Shared_Memory
         }
 
 
-        public const int BUY_AI_NUM = 0;
-        public const int SELL_AI_NUM = 1;
-        public const int FAKE_AI_NUM = 2;
-        public const int EVERY_AI_NUM = 3;
+        public const int FAKE_REQUEST_SIGNAL = -1;
+        public const int REAL_BUY_SIGNAL = 5;
+        public const int REAL_SELL_SIGNAL = 6;
+        public const int EVERY_SIGNAL = 8;
+
 
         public int nRequestCnt = 0;
 
@@ -117,21 +118,21 @@ namespace AtoServer.Shared_Memory
 
                     switch (curBlock.nRequestType)
                     {
-                        case BUY_AI_NUM:
+                        case REAL_BUY_SIGNAL:
                             answer = CalculateBuyMLResult();
-                            sReqMsg = "매수";
+                            sReqMsg = "실매수";
                             break;
-                        case SELL_AI_NUM:
+                        case REAL_SELL_SIGNAL:
                             answer = CalculateSellMLResult();
-                            sReqMsg = "매도";
+                            sReqMsg = "실매도";
                             break;
-                        case FAKE_AI_NUM:
+                        case FAKE_REQUEST_SIGNAL:
                             answer = CalculateFakeMLResult();
                             sReqMsg = "페이크";
                             break;
-                        case EVERY_AI_NUM:
+                        case EVERY_SIGNAL:
                             answer = CalculateFakeMLResult();
-                            sReqMsg = "항시";
+                            sReqMsg = "에브리";
                             break;
                         default:
                             return;
