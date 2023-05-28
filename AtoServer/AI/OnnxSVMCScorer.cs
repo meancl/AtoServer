@@ -13,7 +13,7 @@ namespace AtoServer.AI
     public class OnnxSVMCScorer
     {
         private const string sInput = "input";
-        private const string sOutput = "label";
+        private const string sOutput = "output";
 
         private readonly MLContext mlContext;
         private PredictionEngine<ModelInput, Prediction> model;
@@ -46,7 +46,7 @@ namespace AtoServer.AI
         {
             [VectorType()]
             [ColumnName(sOutput)]
-            public long[] target { get; set; }
+            public double[] target { get; set; }
         }
 
 
@@ -68,10 +68,10 @@ namespace AtoServer.AI
             // Input vectorType 을 변경하기 위해 schema정의서를 추가입력해줘야한다.
             return mlContext.Model.CreatePredictionEngine<ModelInput, Prediction>(model, inputSchemaDefinition: inputSchemaDef);
         }
-        private long? PredictDataUsingModel(ModelInput testData, PredictionEngine<ModelInput, Prediction> model)
+        private double? PredictDataUsingModel(ModelInput testData, PredictionEngine<ModelInput, Prediction> model)
         {
             Prediction prediction = model.Predict(testData);
-            long? retVal;
+            double? retVal;
             if (prediction == null)
                 retVal = null;
             else

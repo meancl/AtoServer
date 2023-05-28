@@ -277,6 +277,7 @@ namespace AtoServer.Shared_Memory
             }
 
 
+
             Console.WriteLine($"{n}번째 테스트 완료 : {fSucCnt  / nCurAITestNum}(%)");
         }
     }

@@ -210,16 +210,12 @@
   <ItemGroup>
     <Compile Include="AI\AIStarter.cs" />
     <Compile Include="AI\OnnxCBCScorer.cs" />
-    <Compile Include="AI\OnnxDNNCScorer.cs" />
     <Compile Include="AI\OnnxLGBMCScorer.cs" />
     <Compile Include="AI\OnnxModelGetter.cs" />
     <Compile Include="AI\OnnxPath.cs" />
-    <Compile Include="AI\OnnxPCAModel.cs" />
     <Compile Include="AI\OnnxRFCScorer.cs" />
     <Compile Include="AI\OnnxSVMCScorer.cs" />
     <Compile Include="AI\OnnxXGBCScorer.cs" />
-    <Compile Include="DB\myDbContext.cs" />
-    <Compile Include="DB\ScaleDatas.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared Memory\MMF.cs" />
