@@ -87,11 +87,18 @@ namespace AtoServer.Shared_Memory
         }
 
 
+        
         public const int FAKE_REQUEST_SIGNAL = -1;
+        public const int FAKE_BUY_SIGNAL = 0;
+        public const int FAKE_RESIST_SIGNAL = 1;
+        public const int FAKE_ASSISTANT_SIGNAL = 2;
         public const int REAL_BUY_SIGNAL = 5;
         public const int REAL_SELL_SIGNAL = 6;
+        public const int FAKE_VOLATILE_SIGNAL = 7;
         public const int EVERY_SIGNAL = 8;
-
+        public const int FAKE_DOWN_SIGNAL = 9;
+        public const int PAPER_BUY_SIGNAL = 10;
+        public const int PAPER_SELL_SIGNAL = 11;
 
         public int nRequestCnt = 0;
 
@@ -133,6 +140,14 @@ namespace AtoServer.Shared_Memory
                         case EVERY_SIGNAL:
                             answer = CalculateFakeMLResult();
                             sReqMsg = "에브리";
+                            break;
+                        case PAPER_BUY_SIGNAL:
+                            answer = CalculateBuyMLResult();
+                            sReqMsg = "모의매수";
+                            break;
+                        case PAPER_SELL_SIGNAL:
+                            answer = CalculateSellMLResult();
+                            sReqMsg = "모의매도";
                             break;
                         default:
                             return;
